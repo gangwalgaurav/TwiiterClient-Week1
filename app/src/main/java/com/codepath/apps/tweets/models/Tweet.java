@@ -1,6 +1,11 @@
 package com.codepath.apps.tweets.models;
 
-import android.util.Log;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,21 +19,38 @@ import java.util.Locale;
 /**
  * Created by gangwal on 2/21/15.
  */
-public class Tweet {
-
+@Table(name = "Tweets")
+public class Tweet extends Model implements Parcelable{
+    @Column(name = "body")
     private String body;
+    @Column(name = "uid", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long uid;
+    @Column(name = "idStr")
     private String idStr;
+    @Column(name = "createdAt")
     private String createdAt;
+    @Column(name = "user", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     private User user;
+    @Column(name = "mediaURL")
     private String mediaURL;
+    @Column(name = "retweetedUserName")
     private String retweetedUserName;
+    @Column(name = "createdAtMillis")
     private long createdAtMillis;
     private static String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
     private static SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+    @Column(name = "isRetweeted")
+    private Boolean isRetweeted;
+    @Column(name = "isFavorited")
+    private Boolean isFavorited;
+    @Column(name = "retweetCount")
+    private int retweetCount;
+    @Column(name = "favoriteCount")
+    private int favoriteCount;
 
-    private Boolean isRetweeted,isFavorited;
-    private int retweetCount,favoriteCount;
+    public Tweet() {
+
+    }
 
 
     public static Tweet fromJson(JSONObject tweetJson){
@@ -104,7 +126,6 @@ public class Tweet {
     }
 
     public long getUid() {
-        Log.i("GET UID:::",""+uid);
         return uid;
     }
 
@@ -139,4 +160,36 @@ public class Tweet {
     public int getRetweetCount() {
         return retweetCount;
     }
+
+    private Tweet(Parcel source) {
+        this.body = source.readString();
+        this.createdAt = source.readString();
+        this.uid = source.readLong();
+        boolean[] boolValues = new boolean[2];
+        source.readBooleanArray(boolValues);
+        this.isFavorited = boolValues[0];
+        this.isRetweeted = boolValues[1];
+        this.user = source.readParcelable(User.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.body);
+        dest.writeString(this.createdAt);
+        dest.writeLong(this.uid);
+        dest.writeBooleanArray(new boolean[] {this.isFavorited, this.isRetweeted});
+        dest.writeParcelable(this.user, 0);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Creator<Tweet> CREATOR = new Parcelable.Creator<Tweet>() {
+        @Override
+        public Tweet createFromParcel(Parcel source) { return new Tweet(source); }
+
+        @Override
+        public Tweet[] newArray(int size) { return new Tweet[size]; }
+    };
 }

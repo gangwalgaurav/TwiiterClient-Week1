@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.codepath.apps.tweets.R;
 import com.codepath.apps.tweets.TwitterApplication;
 import com.codepath.apps.tweets.TwitterClient;
@@ -19,16 +21,17 @@ import com.codepath.apps.tweets.fragments.ComposeDialog;
 import com.codepath.apps.tweets.helpers.EndlessScrollListener;
 import com.codepath.apps.tweets.helpers.Utilities;
 import com.codepath.apps.tweets.models.Tweet;
+import com.codepath.apps.tweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TimelineActivity extends ActionBarActivity implements ComposeDialog.onTweetListener{
 
@@ -89,9 +92,16 @@ public class TimelineActivity extends ActionBarActivity implements ComposeDialog
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 try {
                     if (TextUtils.isEmpty(maxId)) {
+                        new Delete().from(Tweet.class).execute();
+                        new Delete().from(User.class).execute();
                         aTweets.clear();
                     }
                     aTweets.addAll(Tweet.fromJsonArray(response));
+                    for (int i = 0; i < tweets.size(); i++) {
+                        tweets.get(i).getUser().save();
+                        tweets.get(i).save();
+                        Log.e("SAVED TWEET", tweets.get(i).toString());
+                    }
                     writeToFile(response.toString(2));
                     Log.i(TAG,"Got the result");
                 } catch (Exception e) {
@@ -104,8 +114,14 @@ public class TimelineActivity extends ActionBarActivity implements ComposeDialog
                 try {
                     Log.e(TAG,"Failure "  + errorResponse.toString());
                     Toast.makeText(TimelineActivity.this,"Failure" + errorResponse.toString(),Toast.LENGTH_SHORT).show();
-                    writeToFile(errorResponse.toString(2));
-                } catch (JSONException e) {
+                    List<Tweet> cachedTweets = new Select()
+                            .from(Tweet.class)
+                            .orderBy("uid DESC")
+                            .execute();
+                    aTweets.addAll(cachedTweets);
+                    swipeContainer.setRefreshing(false);
+//                    writeToFile(errorResponse.toString(2));
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
