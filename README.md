@@ -36,4 +36,4 @@ Easy fix for this would be to parce the Tweet object, but in that case we will m
 updated tweet info.
 
 ####Demo(Week 1):
-![Video Walkthrough](demo.gif)
+![Video Walkthrough](Demo.gif)
