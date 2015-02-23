@@ -1,0 +1,175 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.codepath.apps.tweets.activity.TweetActivity"
+    >
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/ivDetailProfileImage"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:padding="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UserName"
+        android:id="@+id/tvDetailsUserName"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ivDetailProfileImage"
+        android:layout_toEndOf="@+id/ivDetailProfileImage"
+        android:paddingTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Screen Name"
+        android:id="@+id/tvDetailsScreenName"
+        android:layout_below="@+id/tvDetailsUserName"
+        android:layout_toRightOf="@+id/ivDetailProfileImage"
+        android:layout_toEndOf="@+id/ivDetailProfileImage" />
+
+    <ImageView
+        android:id="@+id/ivVerified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvDetailsUserName"
+        android:paddingLeft="2dp"
+        android:paddingTop="10dp"
+        android:layout_toEndOf="@+id/tvDetailsUserName"
+        android:layout_alignBottom="@+id/tvDetailsUserName"
+    />
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/ibDetailsFollowing"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Body"
+        android:id="@+id/tvDetailsBody"
+        android:layout_below="@+id/ivDetailProfileImage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:autoLink="all"
+        android:linksClickable="true"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivDetailsMedia"
+        android:layout_below="@+id/tvDetailsBody"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/tvDetailsCreatedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TweetTime"
+        android:layout_below="@+id/ivDetailsMedia"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/tvDetailsCreatedTime"/>
+
+    <TextView
+        android:id="@+id/tvDetailsRetweetLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retweet Label"
+        android:layout_below="@+id/tvDetailsCreatedTime"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Following Label"
+        android:id="@+id/tvDetailsFavoriteLabel"
+        android:layout_alignTop="@+id/tvDetailsRetweetLabel"
+        android:layout_toRightOf="@+id/tvDetailsRetweetLabel"
+        android:layout_toEndOf="@+id/tvDetailsRetweetLabel"
+        android:paddingLeft="10dp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/tvDetailsFavoriteLabel"/>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvDetailsRetweetLabel"
+        >
+        <Button
+            android:id="@+id/btDetailsReply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_tweet_action_inline_reply_off"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            />
+        <Button
+            android:id="@+id/btDetailsRetweet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_tweet_action_inline_retweet_off"
+            android:drawablePadding="2dp"
+            android:singleLine="true"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:textSize="12sp"
+            />
+        <Button
+            android:id="@+id/btDetailsFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_tweet_action_inline_favorite_off"
+            android:drawablePadding="2dp"
+            android:singleLine="true"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:textSize="12sp"
+            />
+        <Button
+            android:id="@+id/btDetailsShare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_widget_share_signed_out"
+            android:drawablePadding="2dp"
+            android:singleLine="true"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:layout_gravity="right"
+            />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

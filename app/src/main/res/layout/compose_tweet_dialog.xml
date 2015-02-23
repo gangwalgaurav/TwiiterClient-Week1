@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    >
+
+    <ImageButton
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/ibtnBackButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_cc_nav_back"
+        android:background="@android:color/transparent"
+        />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/ivLoggedInUserProfileImage"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ibtnBackButton"
+        android:layout_toEndOf="@+id/ibtnBackButton"
+        android:padding="5dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Name"
+        android:id="@+id/tvLoggedInUserName"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ivLoggedInUserProfileImage"
+        android:layout_toEndOf="@+id/ivLoggedInUserProfileImage" />
+
+    <TextView
+        android:id="@+id/tvLoggedInUserScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Screen Name"
+        android:layout_below="@+id/tvLoggedInUserName"
+        android:layout_toRightOf="@+id/ivLoggedInUserProfileImage"
+        android:layout_toEndOf="@+id/ivLoggedInUserProfileImage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="140"
+        android:id="@+id/tvCharCount"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/btnTweet"
+        android:paddingRight="5dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tweet"
+        android:id="@+id/btnTweet"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/simple_blue"
+        android:textColor="@color/primary_white"
+        />
+
+    <EditText
+        android:id="@+id/etTweetText"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivLoggedInUserProfileImage"
+        android:layout_alignLeft="@+id/ivLoggedInUserProfileImage"
+        android:layout_alignStart="@+id/ivLoggedInUserProfileImage"
+        android:minLines="@integer/minLinesComposeTweets"
+        android:linksClickable="true"
+        android:maxLines="@integer/maxLinesComposeTweets"
+        android:hint="@string/Compose_Tweet_hint"
+        android:gravity="top"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etTweetText"
+        android:layout_alignLeft="@+id/etTweetText"
+        android:layout_alignStart="@+id/etTweetText"
+        android:id="@+id/linearLayout">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLocation"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_compose_action_geo_default"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnGallery"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_compose_gallery_multiphoto_default"
+            />
+        </LinearLayout>
+
+
+
+
+</RelativeLayout>
