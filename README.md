@@ -26,6 +26,7 @@ The following advanced user stories are optional:
 * [x] Advanced: User can "reply" to any tweet on their home timeline
 * [x] The user that wrote the original tweet is automatically "@" replied in compose
 * [x] Advanced: User can click on a tweet to be taken to a "detail view" of that tweet
+* [x] Advanced: User can take favorite (and unfavorite) or reweet actions on a tweet
 * [x] Advanced: Improve the user interface and theme the app to feel twitter branded
 * [x] Advanced: User can search for tweets matching a particular query and see results
 
