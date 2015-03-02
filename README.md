@@ -1,10 +1,32 @@
-AndroidTwitterClient
+AndroidTwitterClient Redux
 ====================
 
 An simple Android Twitter Client which provides features like getting time line, composing
 a new tweet, query for a single tweet and many more.
 
-User Stories
+User Stories Previous
+====================
+
+* [x] User can switch between Timeline and Mention views using tabs.
+* [x] User can view their home timeline tweets.
+* [x] User can view the recent mentions of their username.
+* [x] User can navigate to view their own profile
+* [x] User can see picture, tagline, # of followers, # of following, and tweets on their profile.
+* [x] User can click on the profile image in any tweet to see another user's profile.
+* [x] User can see picture, tagline, # of followers, # of following, and tweets of clicked user.
+* [x] Profile view should include that user's timeline
+* [x] User can infinitely paginate any of these timelines (home, mentions, user) by scrolling to the bottom
+
+The following advanced user stories are optional:
+
+* [x] Advanced: Robust error handling, check if internet is available, handle error cases, network failures
+* [x] Advanced: User can "reply" to any tweet on their home timeline
+* [x] The user that wrote the original tweet is automatically "@" replied in compose
+* [x] Advanced: User can click on a tweet to be taken to a "detail view" of that tweet
+* [x] Advanced: Improve the user interface and theme the app to feel twitter branded
+* [x] Advanced: User can search for tweets matching a particular query and see results
+
+User Stories Previous
 ====================
 
 * [x] User can sign in to Twitter using OAuth login
@@ -30,13 +52,9 @@ The following advanced user stories are optional:
 * [x] Bonus: User can see embedded image media within the tweet detail view
 * [x] Bonus: Compose activity is replaced with a modal overlay
 
-Known Bug
-====================
-* [x] For detailed view of a tweet, there might be change in data from previous load, like
-change in favorite count etc. For that I am calling url for specific tweet with id/id_str
-but, due to some reason it is  sometime returning the neighbor tweet.
-Easy fix for this would be to parce the Tweet object, but in that case we will miss the
-updated tweet info.
 
-####Demo(Week 1):
+####Demo(Week 4):
 ![Video Walkthrough](Demo.gif)
+
+####Demo(Week 3):
+![Video Walkthrough](Demo_Previous.gif)

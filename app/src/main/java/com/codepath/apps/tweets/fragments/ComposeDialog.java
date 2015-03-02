@@ -49,12 +49,14 @@ public class ComposeDialog  extends DialogFragment{
     private ImageButton ibtnGallery;
     private static final int MAX_CHAR_COUNT_TWEET=140;
     private final String TAG = ComposeDialog.class.getSimpleName();
+    private static String sHint;
 
     public interface onTweetListener {
               public void onTweetSubmit();
          }
 
-    public static ComposeDialog getInstance(FragmentManager fragmentManager){
+    public static ComposeDialog getInstance(String hint,FragmentManager fragmentManager){
+        sHint = hint;
         sFragmentManager = fragmentManager;
         return new ComposeDialog();
     }
@@ -71,11 +73,11 @@ public class ComposeDialog  extends DialogFragment{
 
     private void getLoggedInUserCredentials() {
         client = TwitterApplication.getRestClient();
-        client.getUserCredentials(new JsonHttpResponseHandler() {
+        client.getCurrentUserCredentials(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 loggedInUser = User.fromJson(response);
-                if(loggedInUser==null){
+                if (loggedInUser == null) {
                     Toast.makeText(getDialog().getContext(), "Not able to get Current User's info", Toast.LENGTH_LONG).show();
                     getDialog().dismiss();
                 }
@@ -83,6 +85,7 @@ public class ComposeDialog  extends DialogFragment{
                 tvScreenName.setText(loggedInUser.getScreenName());
                 Picasso.with(getDialog().getContext()).load(loggedInUser.getProfileImageUrl()).into(ivProfileImage);
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e("ERROR", errorResponse.toString());
@@ -107,7 +110,22 @@ public class ComposeDialog  extends DialogFragment{
         tvScreenName = (TextView)view.findViewById(R.id.tvLoggedInUserScreenName);
         tvCharCount = (TextView)view.findViewById(R.id.tvCharCount);
         btnTweet = (Button)view.findViewById(R.id.btnTweet);
+        btnTweet.setEnabled(false);
+        btnTweet.setAlpha((float) 0.5);
         etTweetText = (EditText)view.findViewById(R.id.etTweetText);
+        etTweetText.setHint(sHint);
+        etTweetText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(etTweetText.getText().toString().length()==0){
+                    if((sHint.contains(getActivity().getResources().getString(R.string.Reply_Tweet_hint)))){
+//                        etTweetText.setText("");
+                        String replyTo = sHint.replace(getActivity().getResources().getString(R.string.Reply_Tweet_hint),"");
+                        etTweetText.append(replyTo + " ");
+                    }
+                }
+            }
+        });
         etTweetText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -122,23 +140,25 @@ public class ComposeDialog  extends DialogFragment{
             @Override
             public void afterTextChanged(Editable s) {
                 String text = etTweetText.getText().toString();
-                 tvCharCount.setText(""+(MAX_CHAR_COUNT_TWEET - text.length()));
-                if(text.length() > 0){
+                tvCharCount.setText("" + (MAX_CHAR_COUNT_TWEET - text.length()));
+
+                if (text.length() > 0 && text.length() <= MAX_CHAR_COUNT_TWEET) {
+                    btnTweet.setAlpha(1);
                     btnTweet.setEnabled(true);
-                    btnTweet.getBackground().setAlpha(255);
-                }else{
-                    btnTweet.setEnabled(false);
-                    btnTweet.getBackground().setAlpha(100);
-                }
-                if(text.length() > MAX_CHAR_COUNT_TWEET){
+//                    btnTweet.invalidate();
+                } else {
                     tvCharCount.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-                }else{
+                    btnTweet.setEnabled(false);
+                    btnTweet.setAlpha((float) 0.5);
+
+                }
+                if (text.length() <= MAX_CHAR_COUNT_TWEET) {
                     tvCharCount.setTextColor(getResources().getColor(R.color.secondary_text_color));
                 }
+
             }
         });
-        btnTweet.setEnabled(true);
-        btnTweet.getBackground().setAlpha(255);
+        tvCharCount.setTextColor(getResources().getColor(R.color.secondary_text_color));
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

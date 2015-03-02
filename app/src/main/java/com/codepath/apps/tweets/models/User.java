@@ -10,6 +10,9 @@ import com.activeandroid.annotation.Table;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * Created by gangwal on 2/21/15.
  */
@@ -27,6 +30,21 @@ public class User extends Model implements Parcelable{
     private Boolean isFollowing;
     @Column(name = "isVerified")
     private Boolean isVerified;
+    @Column(name = "current_user")
+    public boolean currentUser;
+    @Column(name="bannerImageUrl")
+    private String bannerImageUrl;
+    @Column(name="tagline")
+    private String tagline;
+    @Column(name = "notifications")
+    public boolean notifications;
+    @Column(name = "followers_count")
+    public String followersCount;
+    @Column(name = "friends_count")
+    public String followingCount;
+    @Column(name = "statuses_count")
+    public String tweetsCount;
+
 
     public User() {
     }
@@ -43,6 +61,24 @@ public class User extends Model implements Parcelable{
             user.profileImageUrl = userJson.getString("profile_image_url");
             user.isFollowing = userJson.getBoolean("following");
             user.isVerified = userJson.getBoolean("verified");
+            if (!userJson.isNull("current_user")) {
+                user.currentUser = true;
+            } else {
+                user.currentUser = false;
+            }
+            if (!userJson.isNull("profile_banner_url"))
+                user.bannerImageUrl = userJson.getString("profile_banner_url");
+            user.tagline = userJson.getString("description");
+            if (!userJson.isNull("notifications"))
+                user.notifications = userJson.getBoolean("notifications");
+            NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
+            if (!userJson.isNull("followers_count"))
+                user.followersCount = formatter.format(userJson.getLong("followers_count"));
+            if (!userJson.isNull("friends_count"))
+                user.followingCount = formatter.format(userJson.getLong("friends_count"));
+            if (!userJson.isNull("statuses_count"))
+                user.tweetsCount = formatter.format(userJson.getLong("statuses_count"));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -71,11 +107,44 @@ public class User extends Model implements Parcelable{
     }
     public Boolean isVerified() { return isVerified; }
 
+    public String getBannerImageUrl() {
+        return bannerImageUrl;
+    }
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public boolean isNotifications() {
+        return notifications;
+    }
+
+    public String getFollowersCount() {
+        return followersCount;
+    }
+
+    public String getFollowingCount() {
+        return followingCount;
+    }
+
+    public String getTweetsCount() {
+        return tweetsCount;
+    }
+
+    public boolean isCurrentUser() {
+        return currentUser;
+    }
+
     private User(Parcel source) {
         this.name = source.readString();
         this.screenName = source.readString();
         this.uid = source.readLong();
         this.profileImageUrl = source.readString();
+        this.bannerImageUrl = source.readString();
+        this.tagline = source.readString();
+        this.followersCount = source.readString();
+        this.followingCount = source.readString();
+        this.tweetsCount = source.readString();
     }
 
     @Override
@@ -87,6 +156,11 @@ public class User extends Model implements Parcelable{
         dest.writeString(this.screenName);
         dest.writeLong(this.uid);
         dest.writeString(this.profileImageUrl);
+        dest.writeString(this.bannerImageUrl);
+        dest.writeString(this.tagline);
+        dest.writeString(this.followersCount);
+        dest.writeString(this.followingCount);
+        dest.writeString(this.tweetsCount);
     }
 
     @SuppressWarnings("unused")

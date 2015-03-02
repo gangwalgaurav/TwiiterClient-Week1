@@ -71,10 +71,46 @@ public class TwitterClient extends OAuthBaseClient {
         getClient().get(apiUrl, params, handler);
     }
 
-    public void getUserCredentials(AsyncHttpResponseHandler handler) {
+    public void getMetionsTimeline(String maxId,AsyncHttpResponseHandler handler){
+        String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+        RequestParams params = new RequestParams();
+        params.put("count",25);
+        getClient().get(apiUrl, params, handler);
+    }
+
+    public void getUserTimeline(String maxId,String userId,AsyncHttpResponseHandler handler){
+
+        String apiUrl = getApiUrl("statuses/user_timeline.json");
+        RequestParams params = new RequestParams();
+        if (!TextUtils.isEmpty(maxId)) {
+            params.put("max_id",maxId);
+        }
+        params.put("user_id",userId);
+        params.put("count",25);
+        params.put("since_id",1);
+
+        getClient().get(apiUrl, params, handler);
+    }
+
+    /**
+     * get info about user with user_id
+     * @param user_id
+     * @param handler
+     */
+    public void getUserInfo(long user_id,AsyncHttpResponseHandler handler){
+        String apiUrl = getApiUrl("users/show.json");
+        RequestParams params = new RequestParams();
+        params.add("user_id",Long.toString(user_id));
+        getClient().get(apiUrl,params, handler);
+    }
+
+    /**
+     * get Info about current User
+     * @param handler
+     */
+    public void getCurrentUserCredentials(AsyncHttpResponseHandler handler) {
                String apiUrl = getApiUrl("account/verify_credentials.json");
                client.get(apiUrl, null, handler);
-
     }
     //Compose request
     public void postTweetUpdate(String tweet, AsyncHttpResponseHandler handler) {
@@ -83,11 +119,39 @@ public class TwitterClient extends OAuthBaseClient {
                 String apiUrl = getApiUrl("statuses/update.json?" + URLEncodedUtils.format(params, "utf-8"));
                 client.post(apiUrl, null, handler);
             }
-    public void getTweetDetail(String id, AsyncHttpResponseHandler handler) {
+    public void getTweetDetail(long id, AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
-        params.add("id",(id));
+        params.add("id",""+id);
 //        params.add("id","210462857140252672");
         String apiUrl = getApiUrl("statuses/show.json");
+        client.get(apiUrl, params, handler);
+    }
+
+    public void getSearchTopTweets(String query, String maxID, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("search/tweets.json");
+        RequestParams params = new RequestParams();
+        if(!TextUtils.isEmpty(maxID)){
+            params.put("max_id", ""+(Long.parseLong(maxID)-1));
+            params.put("count", "80");
+        }
+        params.put("since_id", "1");
+        params.put("result_type", "popular");
+        params.put("q", query);
+
+        client.get(apiUrl, params, handler);
+    }
+
+    public void getSearchAllTweets(String query, String maxID, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("search/tweets.json");
+        RequestParams params = new RequestParams();
+        if(!TextUtils.isEmpty(maxID)){
+            params.put("max_id", ""+(Long.parseLong(maxID)-1));
+            params.put("count", "80");
+        }
+        params.put("since_id", "1");
+        params.put("result_type", "recent");
+        params.put("q", query);
+
         client.get(apiUrl, params, handler);
     }
 

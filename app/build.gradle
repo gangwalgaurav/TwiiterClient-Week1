@@ -24,5 +24,8 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'com.android.support:appcompat-v7:21.0.0+'
     compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.jpardogo.materialtabstrip:library:1.0.9'
+
+
 
 }

@@ -2,6 +2,7 @@ package com.codepath.apps.tweets.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -62,6 +63,7 @@ public class Tweet extends Model implements Parcelable{
 
             tweet.createdAt = tweetJson.getString("created_at");
             tweet.uid = tweetJson.getLong("id");
+            Log.i("Model", "ID: " + tweet.uid + "\tBody " + tweet.body);
             tweet.idStr = tweetJson.getString("id_str");
             tweet.user = User.fromJson(tweetJson.getJSONObject("user"));
             tweet.setCreatedAtMillis(tweet.createdAt);

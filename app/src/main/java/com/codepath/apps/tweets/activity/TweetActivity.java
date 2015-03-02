@@ -69,7 +69,7 @@ public class TweetActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweet);
         client = TwitterApplication.getRestClient();
-        String id = getIntent().getStringExtra("id");
+        long id = getIntent().getLongExtra("id",-1);
         populateTweet(id);
         setupViews();
     }
@@ -90,7 +90,7 @@ public class TweetActivity extends ActionBarActivity {
         btShareButton = (Button)findViewById(R.id.btDetailsShare);
     }
 
-    private void populateTweet(final String uid) {
+    private void populateTweet(final long uid) {
         if(!Utilities.isNetworkAvailable(this)){
             Toast.makeText(this,R.string.NO_INTERNET_CONNECTION,Toast.LENGTH_SHORT).show();
             return;

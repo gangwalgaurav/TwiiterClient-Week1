@@ -7,26 +7,26 @@
         android:id="@+id/notifications"
         app:showAsAction="collapseActionView|always"
         android:icon="@drawable/ic_title_notifications_default"
-        android:title="@string/compose"/>
+        android:orderInCategory="1"
+        android:title="@string/notifications"/>
     <item
         android:id="@+id/messages"
         app:showAsAction="collapseActionView|always"
-        android:icon="@drawable/ic_title_messages_default"
-        android:title="@string/compose"/>
-    <item
-        android:id="@+id/follow"
-        app:showAsAction="collapseActionView|always"
-        android:icon="@drawable/ic_title_wtfpeople_default"
-        android:title="@string/compose"/>
+        android:icon="@drawable/person"
+        android:orderInCategory="2"
+        android:title="@string/messages"/>
     <item
         android:id="@+id/search"
-        app:showAsAction="collapseActionView|always"
         android:icon="@drawable/ic_title_search_default"
-        android:title="@string/compose"/>
+        android:orderInCategory="4"
+        android:title="@string/search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
     <item
         android:id="@+id/compose"
         app:showAsAction="collapseActionView|always"
         android:icon="@drawable/ic_toolbar_compose_default"
+        android:orderInCategory="5"
         android:title="@string/compose"/>
 
     <item android:id="@+id/action_settings" android:title="@string/action_settings"

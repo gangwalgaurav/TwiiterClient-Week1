@@ -1,8 +1,9 @@
 package com.codepath.apps.tweets.adapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -17,8 +18,11 @@ import android.widget.TextView;
 
 import com.codepath.apps.tweets.R;
 import com.codepath.apps.tweets.activity.ImageDisplayActivity;
+import com.codepath.apps.tweets.activity.ProfileActivity;
 import com.codepath.apps.tweets.activity.TweetActivity;
+import com.codepath.apps.tweets.fragments.ComposeDialog;
 import com.codepath.apps.tweets.models.Tweet;
+import com.codepath.apps.tweets.models.User;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -39,6 +43,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
         ImageView ivMedia;
         ImageView ivRetweetedIcon;
         TextView tvRetweetedUserName;
+        Button btReplyIcon;
         Button btRetweetedIcon;
         TextView tvRetweetedCount;
         Button btFavouriteIcon;
@@ -49,17 +54,23 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
 
 
     Tweet tweet;
+
     private final int REQUEST_CODE = 20;
     public long uuid;
+    private FragmentManager mFragmentManger;
 
-    public TweetsArrayAdapter(Context context, List<Tweet> tweets){
-        super(context, R.layout.item_tweet,tweets);
+
+    public TweetsArrayAdapter(FragmentActivity activity, List<Tweet> tweets){
+        super(activity, R.layout.item_tweet,tweets);
+        mFragmentManger = activity.getSupportFragmentManager();
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final Tweet currentTweet = getItem(position);
+        final String mediaUrl;
         tweet = getItem(position);
-        uuid = tweet.getUid();
+//        uuid = tweet.getUid();
         ViewHolder viewHolder;
         if(convertView==null){
             viewHolder = new ViewHolder();
@@ -67,6 +78,8 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
             viewHolder.ivProfilePicture = (ImageView) convertView.findViewById(R.id.ivProfileImage);
             viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
             viewHolder.tvBody = (TextView) convertView.findViewById(R.id.tvBody);
+            Log.i("View", "ID: " + tweet.getUid() + "\tBody " + tweet.getBody());
+
             viewHolder.tvCreatedTime = (TextView)convertView.findViewById(R.id.tvCreatedAt);
             viewHolder.tvScreenName = (TextView)convertView.findViewById(R.id.tvScreenName);
             viewHolder.ivMedia = (ImageView)convertView.findViewById(R.id.ivMediaImage);
@@ -76,6 +89,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
             viewHolder.btRetweetedIcon = (Button)convertView.findViewById(R.id.btRetweet);
             viewHolder.btFavouriteIcon = (Button)convertView.findViewById(R.id.btFavorite);
             viewHolder.btFollowingIcon = (Button)convertView.findViewById(R.id.btFollow);
+            viewHolder.btReplyIcon = (Button)convertView.findViewById(R.id.btReply);
             convertView.setTag(viewHolder);
         }  else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -94,14 +108,14 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
             viewHolder.ivMedia.setVisibility(View.GONE);
         }
         else{
+            mediaUrl = tweet.getMediaURL();
             viewHolder.ivMedia.setVisibility(View.VISIBLE);
             Picasso.with(getContext()).load(tweet.getMediaURL()).into(viewHolder.ivMedia);
             viewHolder.ivMedia.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), ImageDisplayActivity.class);
-                    String imageInfo = tweet.getMediaURL();
-                    intent.putExtra("imageInfo", imageInfo);
+                    intent.putExtra("imageInfo", mediaUrl);
                     getContext().startActivity(intent);
                 }
             });
@@ -122,7 +136,21 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
         viewHolder.tvBody.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDetailedTweet(tweet.getIdStr());
+                showDetailedTweet(currentTweet.getUid());
+            }
+        });
+
+        viewHolder.ivProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProfile(currentTweet.getUser());
+            }
+        });
+
+        viewHolder.btReplyIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showReplyDialog(" @"+currentTweet.getUser().getScreenName());
             }
         });
 
@@ -134,17 +162,30 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
         viewHolder.btFavouriteIcon.setText(NumberFormat.getNumberInstance(Locale.US).format(tweet.getFavoriteCount()));
         Drawable favortited = tweet.isFavorited()?getContext().getResources().getDrawable(R.drawable.ic_tweet_action_inline_favorite_on):getContext().getResources().getDrawable(R.drawable.ic_tweet_action_inline_favorite_off);
         viewHolder.btFavouriteIcon.setCompoundDrawablesWithIntrinsicBounds(favortited,null,null,null);
+
+
         return convertView;
     }
 
-    private void showDetailedTweet(String idStr) {
+    private void showProfile(User user) {
+        Intent intent = new Intent(this.getContext(), ProfileActivity.class);
+        intent.putExtra("uid", user.getUid());
+        getContext().startActivity(intent);
+    }
 
+    private void showDetailedTweet(long id) {
         Intent i = new Intent(this.getContext(), TweetActivity.class);
-        Log.i("ID", "ID " + idStr);
-
-        i.putExtra("id", idStr); // pass arbitrary data to launched activity
+        i.putExtra("id", id); // pass arbitrary data to launched activity
         getContext().startActivity(i);
     }
+
+//    private void showDetailedTweet(String idStr) {
+//        Intent i = new Intent(this.getContext(), TweetActivity.class);
+//        Log.i("ID", "ID " + idStr);
+//
+//        i.putExtra("id", idStr); // pass arbitrary data to launched activity
+//        getContext().startActivity(i);
+//    }
 
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
     public String getRelativeTimeAgo(long dateMillis) {
@@ -160,6 +201,14 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
         refCratedTimeString = refCratedTimeString.replace(" hour","h");
         refCratedTimeString = refCratedTimeString.replace(" minutes","m");
         refCratedTimeString = refCratedTimeString.replace(" minute","m");
+        refCratedTimeString = refCratedTimeString.replace(" seconds","s");
+        refCratedTimeString = refCratedTimeString.replace(" second","s");
         return refCratedTimeString;
+    }
+
+    private void showReplyDialog(String userName) {
+        //TODO Pass username
+        ComposeDialog compose = ComposeDialog.getInstance(getContext().getResources().getString(R.string.Reply_Tweet_hint)+userName,mFragmentManger);
+        compose.show(mFragmentManger,"");
     }
 }
