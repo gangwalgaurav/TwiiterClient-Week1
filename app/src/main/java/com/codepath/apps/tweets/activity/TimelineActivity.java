@@ -93,6 +93,9 @@ public class TimelineActivity extends ActionBarActivity implements ComposeDialog
             return true;
         }
         else if (id == R.id.messages) {
+
+        }
+        else if(id==R.id.profile){
             Intent intent = new Intent(this, ProfileActivity.class);
             intent.putExtra("showCurrentUser",true);
             startActivity(intent);

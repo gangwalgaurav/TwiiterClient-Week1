@@ -3,6 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.codepath.apps.tweets.activity.TimelineActivity"
     >
+
+    <item
+        android:id="@+id/profile"
+        app:showAsAction="never"
+        android:title="@string/my_profile"/>
+    <item
+        android:id="@+id/signout"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="@string/signout"/>
     <item
         android:id="@+id/notifications"
         app:showAsAction="collapseActionView|always"
@@ -12,7 +22,7 @@
     <item
         android:id="@+id/messages"
         app:showAsAction="collapseActionView|always"
-        android:icon="@drawable/person"
+        android:icon="@drawable/ic_title_messages_default"
         android:orderInCategory="2"
         android:title="@string/messages"/>
     <item

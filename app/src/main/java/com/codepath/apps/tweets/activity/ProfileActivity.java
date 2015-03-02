@@ -30,7 +30,7 @@ public class ProfileActivity extends ActionBarActivity implements ComposeDialog.
         if(savedInstanceState==null) {
 //            View header = findViewById(R.id.flUserHeader);
             UserHeaderFragment userHeaderFragment = UserHeaderFragment.newInstance(mUid);
-            TweetListFragment tweetListFragment = TweetListFragment.newInstance("User",mUid);
+            TweetListFragment tweetListFragment = TweetListFragment.newInstance("Tweets",mUid);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flUserHeader,userHeaderFragment);
             ft.replace(R.id.flContainer, tweetListFragment);
