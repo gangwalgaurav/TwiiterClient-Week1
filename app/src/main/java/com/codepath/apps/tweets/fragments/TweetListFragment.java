@@ -56,7 +56,7 @@ public class TweetListFragment extends Fragment {
 
     private String max;
     private final static String UID_HEADER="user_id";
-    static View header;
+    private View  progressBar;
     private String searchString;
 
     public static TweetListFragment newInstance(String tabName){
@@ -78,6 +78,9 @@ public class TweetListFragment extends Fragment {
         public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
             {
                 try {
+                    if(response.length()==0){
+                        lvTweets.removeFooterView(progressBar);
+                    }
                     if (TextUtils.isEmpty(max)) {
 //                        new Delete().from(Tweet.class).execute();
 //                        new Delete().from(User.class).execute();
@@ -173,9 +176,9 @@ public class TweetListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.fragment_tweets_list,parent,false);
         lvTweets = (ListView) view.findViewById(R.id.lvTweets);
-        View v = inflater.inflate(R.layout.progress, null);
-        lvTweets.addFooterView(v);
 
+        progressBar = inflater.inflate(R.layout.progress, null);
+        lvTweets.addFooterView(progressBar);
 //        View header;//= getLayoutInflater().inflate(R.layout.fragment_user_header, null);
 //        header = view.findViewById(R.id.flUserHeader);
 //        if(header!=null)
@@ -220,7 +223,6 @@ public class TweetListFragment extends Fragment {
     }
 
     private void populateTweets(final String maxId) {
-
         boolean isNetworkAvailable = Utilities.isNetworkAvailable(getActivity());
         max = maxId;
         if(mTabType==HOME_TWEET_TYPE) {
@@ -300,6 +302,7 @@ public class TweetListFragment extends Fragment {
 //                }
 //            }
 //        });
+
     }
 
     private void writeToFile(String data) {

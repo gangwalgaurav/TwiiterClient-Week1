@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.tweets.R;
 import com.codepath.apps.tweets.activity.ImageDisplayActivity;
@@ -73,8 +74,8 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
 //        uuid = tweet.getUid();
         ViewHolder viewHolder;
         if(convertView==null){
-            viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_tweet,parent,false);
+            viewHolder = new ViewHolder();
             viewHolder.ivProfilePicture = (ImageView) convertView.findViewById(R.id.ivProfileImage);
             viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
             viewHolder.tvBody = (TextView) convertView.findViewById(R.id.tvBody);
@@ -163,6 +164,9 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet>{
         Drawable favortited = tweet.isFavorited()?getContext().getResources().getDrawable(R.drawable.ic_tweet_action_inline_favorite_on):getContext().getResources().getDrawable(R.drawable.ic_tweet_action_inline_favorite_off);
         viewHolder.btFavouriteIcon.setCompoundDrawablesWithIntrinsicBounds(favortited,null,null,null);
 
+        if(convertView==null){
+            Toast.makeText(getContext(),"Convert view Null",Toast.LENGTH_SHORT).show();
+        }
 
         return convertView;
     }
