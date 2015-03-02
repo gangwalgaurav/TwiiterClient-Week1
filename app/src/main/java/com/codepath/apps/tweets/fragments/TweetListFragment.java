@@ -173,6 +173,8 @@ public class TweetListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.fragment_tweets_list,parent,false);
         lvTweets = (ListView) view.findViewById(R.id.lvTweets);
+        View v = inflater.inflate(R.layout.progress, null);
+        lvTweets.addFooterView(v);
 
 //        View header;//= getLayoutInflater().inflate(R.layout.fragment_user_header, null);
 //        header = view.findViewById(R.id.flUserHeader);
