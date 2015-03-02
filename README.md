@@ -30,6 +30,11 @@ The following advanced user stories are optional:
 * [x] Advanced: Improve the user interface and theme the app to feel twitter branded
 * [x] Advanced: User can search for tweets matching a particular query and see results
 
+####Demo(Week 4):
+![Video Walkthrough](Demo.gif)
+####Demo User list (Followers, friends) and Actions (unFollow/Follow and favotire/unFavorite)(Week 4):
+![Video Walkthrough](Demo_People.gif)
+
 User Stories Previous
 ====================
 
@@ -56,9 +61,6 @@ The following advanced user stories are optional:
 * [x] Bonus: User can see embedded image media within the tweet detail view
 * [x] Bonus: Compose activity is replaced with a modal overlay
 
-
-####Demo(Week 4):
-![Video Walkthrough](Demo.gif)
 
 ####Demo(Week 3):
 ![Video Walkthrough](Demo_Previous.gif)
