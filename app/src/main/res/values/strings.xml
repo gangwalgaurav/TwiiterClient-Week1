@@ -21,4 +21,9 @@
     <string name="action_search">Search</string>
     <string name="my_profile">My Profile</string>
     <string name="signout">Sign out</string>
+    <string name="title_activity_people">PeopleActivity</string>
+    <string name="title_activity_follwoing">FollwoingActivity</string>
+    <string name="title_activity_friends_list">FriendsListActivity</string>
+    <string name="title_activity_tweet_list">TweetListActivity</string>
+
 </resources>

@@ -76,7 +76,7 @@ public class ComposeDialog  extends DialogFragment{
         client.getCurrentUserCredentials(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                loggedInUser = User.fromJson(response);
+                loggedInUser = User.fromJSON(response);
                 if (loggedInUser == null) {
                     Toast.makeText(getDialog().getContext(), "Not able to get Current User's info", Toast.LENGTH_LONG).show();
                     getDialog().dismiss();

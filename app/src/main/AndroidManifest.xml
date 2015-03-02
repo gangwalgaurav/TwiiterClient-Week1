@@ -70,6 +70,22 @@
             android:name=".activity.SearchActivity"
             android:label="@string/title_activity_profile" >
         </activity>
+        <activity
+            android:name=".activity.PeopleActivity"
+            android:label="@string/title_activity_people" >
+        </activity>
+        <activity
+            android:name=".activity.FollowersActivity"
+            android:label="@string/title_activity_follwoing" >
+        </activity>
+        <activity
+            android:name=".activity.FriendsListActivity"
+            android:label="@string/title_activity_friends_list" >
+        </activity>
+        <activity
+            android:name=".activity.TweetListActivity"
+            android:label="@string/title_activity_tweet_list" >
+        </activity>
     </application>
 
 </manifest>

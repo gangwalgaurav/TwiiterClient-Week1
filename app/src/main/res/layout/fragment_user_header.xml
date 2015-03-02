@@ -62,7 +62,6 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="left|center_vertical"
-            android:onClick="onViewUserTweets"
             android:paddingLeft="10dp"
             android:text="0\nTWEETS"
             android:textColor="@color/secondary_text_color"
@@ -82,7 +81,6 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="left|center_vertical"
-            android:onClick="onViewUserFriends"
             android:paddingLeft="10dp"
             android:textColor="@color/secondary_text_color"
             android:textSize="12sp"/>
@@ -102,7 +100,6 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="left|center_vertical"
-            android:onClick="onViewUserFollowers"
             android:paddingLeft="10dp"
             android:textColor="@color/secondary_text_color"
             android:textSize="12sp"/>
@@ -185,7 +182,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="4dp"
         android:background="@android:color/darker_gray"/>
 
 </RelativeLayout>

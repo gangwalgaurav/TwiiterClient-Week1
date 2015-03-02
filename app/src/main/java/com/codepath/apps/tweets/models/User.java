@@ -7,10 +7,12 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -50,7 +52,7 @@ public class User extends Model implements Parcelable{
     }
 
 
-    public static User fromJson(JSONObject userJson)
+    public static User fromJSON(JSONObject userJson)
     {
         User user = new User();
         try {
@@ -84,6 +86,26 @@ public class User extends Model implements Parcelable{
         }
         return user;
 
+    }
+
+    public static ArrayList<User> fromJSONArray(JSONArray jsonArray) {
+        ArrayList<User> users = new ArrayList<>(jsonArray.length());
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject userJSON = null;
+            try {
+                userJSON = jsonArray.getJSONObject(i);
+            } catch (Exception e) {
+                e.printStackTrace();
+                continue;
+            }
+
+            User user = User.fromJSON(userJSON);
+            if (user != null) {
+                users.add(user);
+            }
+        }
+
+        return users;
     }
 
     public String getName() {

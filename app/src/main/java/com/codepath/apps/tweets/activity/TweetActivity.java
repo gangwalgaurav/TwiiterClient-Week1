@@ -96,8 +96,6 @@ public class TweetActivity extends ActionBarActivity {
             return;
         }
         client.getTweetDetail(uid, new JsonHttpResponseHandler() {
-            //Success
-
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -142,11 +140,14 @@ public class TweetActivity extends ActionBarActivity {
                         @Override
                         public void onClick(View v) {
                             int followed1;
-                            if(tweet.getUser().isFollowing())
+                            if(tweet.getUser().isFollowing()) {
+                                client.unFriend(tweet.getUser().getUid(), postJSONHandler);
                                 ibFollowing.setImageResource(R.drawable.ic_tweet_action_inline_follow_off);
-                            else
+                            }
+                            else {
+                                client.friend(tweet.getUser().getUid(), postJSONHandler);
                                 ibFollowing.setImageResource(R.drawable.ic_tweet_action_inline_follow_on);
-
+                            }
                             ibFollowing.startAnimation(anim);
 
                         }
@@ -165,8 +166,24 @@ public class TweetActivity extends ActionBarActivity {
 
                     Drawable retweeted = tweet.isRetweeted()?getResources().getDrawable(R.drawable.ic_tweet_action_inline_retweet_on):getResources().getDrawable(R.drawable.ic_tweet_action_inline_retweet_off);
                     btDetailsRetweetCount.setCompoundDrawablesWithIntrinsicBounds(retweeted,null,null,null);
+
+
                     Drawable favortited = tweet.isFavorited()?getResources().getDrawable(R.drawable.ic_tweet_action_inline_favorite_on):getResources().getDrawable(R.drawable.ic_tweet_action_inline_favorite_off);
                     btDetailsFavoriteCount.setCompoundDrawablesWithIntrinsicBounds(favortited,null,null,null);
+                    btDetailsFavoriteCount.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(tweet.isFavorited()) {
+                                client.unFavorite(tweet.getUid(), postJSONHandler);
+                                btDetailsFavoriteCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_tweet_action_inline_favorite_off),null,null,null);
+                            }
+                            else {
+                                client.favorite(tweet.getUid(), postJSONHandler);
+                                btDetailsFavoriteCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_tweet_action_inline_favorite_on),null,null,null);
+                            }
+                            ibFollowing.startAnimation(anim);
+                        }
+                    });
 
 
                 } catch (Exception e) {
@@ -272,5 +289,8 @@ public class TweetActivity extends ActionBarActivity {
             }
             return bmpUri;
         }
+
+    public JsonHttpResponseHandler postJSONHandler = new JsonHttpResponseHandler(){
+    };
 
 }

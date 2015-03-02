@@ -155,6 +155,88 @@ public class TwitterClient extends OAuthBaseClient {
         client.get(apiUrl, params, handler);
     }
 
+    /**
+     * Get list of users specified user is followed by
+     * @param user_id
+     * @param maxID
+     * @param handler
+     */
+    public void getFollowers(long user_id, String maxID, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("followers/list.json");
+        RequestParams params = new RequestParams();
+        params.add("user_id",Long.toString(user_id));
+        if(!TextUtils.isEmpty(maxID)){
+            params.put("max_id", maxID);
+        }
+        getClient().get(apiUrl, params, handler);
+    }
+
+    /**
+     * Get list of users specified user is following
+     * @param user_id
+     * @param maxID
+     * @param handler
+     */
+    public void getFriends(long user_id, String maxID, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("friends/list.json");
+        RequestParams params = new RequestParams();
+        params.add("user_id",Long.toString(user_id));
+        if(!TextUtils.isEmpty(maxID)){
+            params.put("max_id", maxID);
+        }
+        getClient().get(apiUrl, params, handler);
+    }
+
+    /**
+     * unFriend the user with user_id
+     * @param user_id
+     * @param handler
+     */
+    public void unFriend(long user_id, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("friendships/destroy.json");
+        RequestParams params = new RequestParams();
+        params.add("user_id",Long.toString(user_id));
+        getClient().post(apiUrl, params, handler);
+    }
+
+    /**
+     * Friend the user with user_id
+     * @param user_id
+     * @param handler
+     */
+    public void friend(long user_id, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("friendships/create.json");
+        RequestParams params = new RequestParams();
+        params.add("user_id",Long.toString(user_id));
+        getClient().post(apiUrl, params, handler);
+    }
+
+
+    /**
+     * unFavorite the user with user_id
+     * @param id
+     * @param handler
+     */
+    public void unFavorite(long id, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("favorites/destroy.json");
+        RequestParams params = new RequestParams();
+        params.add("id",Long.toString(id));
+        getClient().post(apiUrl, params, handler);
+    }
+
+    /**
+     * unFavorite the user with user_id
+     * @param id
+     * @param handler
+     */
+    public void favorite(long id, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("favorites/create.json");
+        RequestParams params = new RequestParams();
+        params.add("id",Long.toString(id));
+        getClient().post(apiUrl, params, handler);
+    }
+
+
     //statuses/show.json
 
 }

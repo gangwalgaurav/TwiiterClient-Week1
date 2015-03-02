@@ -65,7 +65,7 @@ public class Tweet extends Model implements Parcelable{
             tweet.uid = tweetJson.getLong("id");
             Log.i("Model", "ID: " + tweet.uid + "\tBody " + tweet.body);
             tweet.idStr = tweetJson.getString("id_str");
-            tweet.user = User.fromJson(tweetJson.getJSONObject("user"));
+            tweet.user = User.fromJSON(tweetJson.getJSONObject("user"));
             tweet.setCreatedAtMillis(tweet.createdAt);
 
             if(!tweetJson.getJSONObject("entities").isNull("media")){
@@ -77,7 +77,7 @@ public class Tweet extends Model implements Parcelable{
                 JSONObject retweetedStatus = tweetJson.getJSONObject("retweeted_status");
                 tweet.body = retweetedStatus.getString("text").replace("\n", "<br>");
                 tweet.retweetedUserName = tweet.user.getName();
-                tweet.user = User.fromJson(retweetedStatus.getJSONObject("user"));
+                tweet.user = User.fromJSON(retweetedStatus.getJSONObject("user"));
             }
             tweet.isRetweeted = tweetJson.getBoolean("retweeted");
             tweet.retweetCount = tweetJson.getInt("retweet_count");

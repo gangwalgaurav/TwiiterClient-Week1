@@ -1,5 +1,6 @@
 package com.codepath.apps.tweets.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 import com.codepath.apps.tweets.R;
 import com.codepath.apps.tweets.TwitterApplication;
 import com.codepath.apps.tweets.TwitterClient;
+import com.codepath.apps.tweets.activity.FollowersActivity;
+import com.codepath.apps.tweets.activity.FriendsListActivity;
+import com.codepath.apps.tweets.activity.TweetListActivity;
 import com.codepath.apps.tweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -87,7 +91,7 @@ public class UserHeaderFragment extends Fragment{
     private JsonHttpResponseHandler userDetailsJSONHandler = new JsonHttpResponseHandler(){
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-            user = User.fromJson(response);
+            user = User.fromJSON(response);
 //                getSupportActionBar().setTitle("@"+user.getScreenName()); //TODO Probably need to create a method in interface
             populateProfileHeader(user);
         }
@@ -112,8 +116,26 @@ public class UserHeaderFragment extends Fragment{
         tvTagLine.setText(user.getTagline());
 
         mBtnTweetsCount.setText(Html.fromHtml("<b>" + user.getTweetsCount() + "</b><br>TWEETS"));
+        mBtnTweetsCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onViewTweetList(v);
+            }
+        });
         mBtnFollowingCount.setText(Html.fromHtml("<b>" + user.getFollowingCount() + "</b><br>FOLLOWING"));
+        mBtnFollowingCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onViewUserFriends(v);
+            }
+        });
         mBtnFollowersCount.setText(Html.fromHtml("<b>" + user.getFollowersCount() + "</b><br>FOLLOWERS"));
+        mBtnFollowersCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onViewUserFollowers(v);
+            }
+        });
 
         if (user.isCurrentUser()) {
             mBtnEditProfile.setVisibility(View.VISIBLE);
@@ -143,6 +165,24 @@ public class UserHeaderFragment extends Fragment{
                 mBtnFollowing.setTextColor(getResources().getColor(R.color.simple_blue));
             }
         }
+    }
+
+    public void onViewUserFriends(View view) {
+        Intent intent = new Intent(getActivity(), FriendsListActivity.class);
+        intent.putExtra("user_id", user.getUid());
+        startActivity(intent);
+    }
+
+    public void onViewUserFollowers(View view) {
+        Intent intent = new Intent(getActivity(), FollowersActivity.class);
+        intent.putExtra("user_id", user.getUid());
+        startActivity(intent);
+    }
+
+    public void onViewTweetList(View view) {
+        Intent intent = new Intent(getActivity(), TweetListActivity.class);
+        intent.putExtra("user_id", user.getUid());
+        startActivity(intent);
     }
 }
 

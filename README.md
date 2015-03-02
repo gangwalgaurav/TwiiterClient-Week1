@@ -1,6 +1,6 @@
 AndroidTwitterClient Redux
 ====================
-
+Time Spent ~ 18 - 20 hours
 An simple Android Twitter Client which provides features like getting time line, composing
 a new tweet, query for a single tweet and many more.
 
@@ -16,6 +16,9 @@ User Stories Previous
 * [x] User can see picture, tagline, # of followers, # of following, and tweets of clicked user.
 * [x] Profile view should include that user's timeline
 * [x] User can infinitely paginate any of these timelines (home, mentions, user) by scrolling to the bottom
+* [x] Optional: User can view following / followers list through the profile
+* [x] User can follow/unfollow any other user.
+
 
 The following advanced user stories are optional:
 
